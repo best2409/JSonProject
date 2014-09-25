@@ -26,7 +26,26 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		
+		 /*if (android.os.Build.VERSION.SDK_INT > 9) {
+		      StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+		      StrictMode.setThreadPolicy(policy);
+
+			안드로이드 버전 3.0 이상부터는 인터넷 연결은 쓰레드나 핸들러에서 처리하도록 정책이 바뀌었다. 그래서 UI 쓰레스에서 인터넷 연결을
+			시도하면(HttpURLConnection과 같은 것으로) 실행 타임에서 에러가 발생한다.
+
+		    @Override
+		    public void onCreate(Bundle savedInstanceState) {
+		     if (Build.VERSION.SDK_INT > 9){
+		      StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+		      StrictMode.setThreadPolicy(policy);
+		     }
+		     
+		        super.onCreate(savedInstanceState);
+		        setContentView(R.layout.get_signature_from_toodledo);
+		        
+		        txt = (TextView)findViewById(R.id.txt);
+		    }
+		  */
 		
 		StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectDiskReads().detectDiskWrites().detectNetwork().penaltyLog().build());
 		
@@ -40,7 +59,8 @@ public class MainActivity extends Activity {
 		btnSend.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				
-				String urlString = "http://192.168.0.34:8080/JSONProject/json.jsp";
+				// 에뮬레이터는 자체 IP 사용 -> localhost 사용하면 안됨!
+				String urlString = "http://10.0.0.2:8080/JSONProject/json.jsp";
 				
 				DefaultHttpClient client = new DefaultHttpClient();
 					
@@ -76,7 +96,7 @@ public class MainActivity extends Activity {
 		});
 	}
 	
-	
+	//  JSON Parsing
 	private String[][] jsonParserList(String pRecvServerPage) {
 		
 		Log.e("msg : ", pRecvServerPage);
